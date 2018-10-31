@@ -1,0 +1,7 @@
+FROM jenkins/jnlp-slave
+USER root
+RUN \
+  apt-get update && \
+  apt-get install -y python2.7 python-dev python-pip python-virtualenv
+USER jenkins
+

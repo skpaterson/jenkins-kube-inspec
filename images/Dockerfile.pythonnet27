@@ -1,0 +1,15 @@
+FROM jenkins/jnlp-slave
+USER root
+RUN \
+  apt-get update && \
+  apt-get install -y python2.7 python-dev python-pip python-virtualenv && \
+  apt install -y apt-transport-https dirmngr && \
+  apt-get install -y clang libglib2.0-dev && \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+  echo "deb https://download.mono-project.com/repo/debian stable-stretch main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
+  apt update -y && \
+  apt install mono-devel -y && \
+  pip install -U setuptools && \
+  pip install -U wheel
+USER jenkins
+

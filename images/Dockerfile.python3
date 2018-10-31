@@ -1,0 +1,16 @@
+FROM jenkins/jnlp-slave
+USER root
+RUN apt update && apt upgrade -y
+RUN \
+  apt-get update -y && \
+  apt-get install -y build-essential checkinstall && \
+  apt-get install -y libncursesw5-dev libreadline-gplv2-dev tk-dev libc6-dev libbz2-dev && \
+  apt-get install -y libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev && \
+  apt install zlib1g zlib1g-dev python-dev python-setuptools python-pip -y && \
+  mkdir -p /usr/src && cd /usr/src && \
+  wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz && \
+  tar xzf Python-3.7.0.tgz && \
+  cd Python-3.7.0 && \
+  ./configure  --prefix=/usr --enable-optimizations --enable-loadable-sqlite-extensions && \
+  make altinstall
+USER jenkins
