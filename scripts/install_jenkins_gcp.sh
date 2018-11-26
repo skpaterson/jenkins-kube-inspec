@@ -7,7 +7,7 @@ NODES=${GCP_CLUSTER_NODES:=2}
 NETWORK=${GCP_NETWORK:='jenkins'}
 SCOPES=${GCP_SCOPES:='projecthosting,storage-rw'}
 gcloud config set compute/zone ${ZONE}
-#gcloud compute networks create ${NETWORK}
+gcloud compute networks create ${NETWORK}
 gcloud container clusters create ${CLUSTER} --network ${NETWORK} --machine-type ${SIZE} --num-nodes ${NODES} \
   --scopes "https://www.googleapis.com/auth/${SCOPES}"
 gcloud container clusters get-credentials ${CLUSTER}
@@ -21,7 +21,7 @@ helm install -n cd stable/jenkins -f jenkins/values.yaml --version 0.16.6 --wait
 kubectl get pods
 until kubectl get pods | grep Running; do sleep 5; echo 'Pending Running state...'; done
 until kubectl get pods | grep 1/1; do sleep 5; echo 'Pending Ready 1/1 state...'; done
-export POD_NAME=$(kubectl get pods -l "component=cd-jenkins-master" -o jsonpath="{.items[0].metadata.name}")
+#export POD_NAME=$(kubectl get pods -l "component=cd-jenkins-master" -o jsonpath="{.items[0].metadata.name}")
 #kubectl port-forward $POD_NAME 8080:8080 >> /dev/null &
 #echo http://127.0.0.1:8080
 echo "Jenkins admin password is:"

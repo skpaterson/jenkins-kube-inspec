@@ -2,4 +2,4 @@
 
 source 'https://rubygems.org'
 
-gem 'inspec', '>= 2.3.5'
+gem 'inspec', '>= 3.0.25'

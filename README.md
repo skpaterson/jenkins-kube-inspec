@@ -14,7 +14,7 @@ Steps from the following tutorial [GoogleCloudPlatform/continuous-deployment-on-
 
 Ensure that your target GCP project is correct by running:
 ```
-$ cloud config set project my-project-id
+$ gcloud config set project my-project-id
 ```
 
 InSpec and dependencies can be installed via the [Gemfile](Gemfile) in this repository e.g.
@@ -35,16 +35,56 @@ export GCP_ZONE=europe-west2-a
 
 ## Run the Installation Script
 
+TODO - add sample output / screenshots
+
 ```
 $ ./scripts/install_jenkins_gcp.sh
 ```
 
+## Testing the Infrastructure 
 
-## Testing the Infrastructure
+An InSpec profile is provided in this repository to test the Jenkins cluster.   Variables can be passed to InSpec to test the infrastructure using the `attributes.yml` file.  Default values are provided in the `inspec.yml` and the only mandatory parameter is the GCP project identifier.  Run the tests using the following command:
 
-The installation script automatically creates an attributes file in the root directory of the repository.  These variables are passed to InSpec to test the infrastructure.  Run the tests using the following command:
 ```
-$ cd gcp-profile/
-$ inspec exec . -t gcp:// --attrs inspec-attributes.yml
+$ cd jenkins-kube-inspec/
+$ inspec exec . -t gcp:// --attrs attributes.yml
+
+Profile: InSpec GCP Jenkins Profile (inspec-gcp-jenkins-profile)
+Version: 1.0.0
+Target:  gcp://service-account@spaterson-project.iam.gserviceaccount.com
+
+  ✔  gcp-gke-jenkins-cluster-1.0: Ensure the GKE Container Cluster was built correctly.
+     ✔  Cluster jenkins-ci should exist
+     ✔  Cluster jenkins-ci name should eq "jenkins-ci"
+     ✔  Cluster jenkins-ci zone should match "europe-west2-a"
+     ✔  Cluster jenkins-ci status should eq "RUNNING"
+     ✔  Cluster jenkins-ci locations should include "europe-west2-a"
+     ✔  Cluster jenkins-ci network should eq "jenkins"
+     ✔  Cluster jenkins-ci subnetwork should eq "jenkins"
+     ✔  Cluster jenkins-ci node_config.disk_size_gb should eq 100
+     ✔  Cluster jenkins-ci node_config.image_type should eq "COS"
+     ✔  Cluster jenkins-ci node_config.machine_type should eq "n1-standard-2"
+     ✔  Cluster jenkins-ci node_ipv4_cidr_size should eq 24
+     ✔  Cluster jenkins-ci node_pools.count should eq 1
+
+
+Profile: Google Cloud Platform Resource Pack (inspec-gcp)
+Version: 0.7.0
+Target:  gcp://service-account@spaterson-project.iam.gserviceaccount.com
+
+     No tests executed.
+
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+Test Summary: 12 successful, 0 failures, 0 skipped
 ```
 
+Add variables to the `attributes.yml` if values other than the defaults were used to run the `install_jenkins_gcp.sh` script.
+
+## Building Images for your Builds
+
+Sample docker files are included for information.  These can be built and pushed to GCR to be referenced in repository `Jenkinsfile` pod templates.  Example of building an image:
+
+```
+docker build -t gcr.io/my-gcp-project/image-name -f images/Dockerfile.name
+docker push gcr.io/my-gcp-project/image-name:latest
+```

@@ -1,0 +1,39 @@
+name: inspec-gcp-jenkins-profile
+title: InSpec GCP Jenkins Profile
+maintainer: Stuart Paterson
+copyright: Stuart Paterson
+copyright_email: spaterson@chef.io
+license: Apache-2.0
+summary: An InSpec Profile to Test Jenkins on Kubernetes
+version: 1.0.0
+inspec_version: '>= 3.0.25'
+attributes:
+- name: gcp_project_id
+  required: true
+  description: 'The GCP project identifier.'
+  type: string
+- name: gcp_kube_cluster_name
+  required: false
+  description: 'The GKE cluster name.'
+  type: string
+  default: 'jenkins-ci'
+- name: gcp_kube_cluster_zone
+  required: false
+  description: 'The GKE cluster zone.'
+  type: string
+  default: 'europe-west2-a'
+- name: gcp_network_name
+  required: false
+  description: 'The GKE network name.'
+  type: string
+  default: 'jenkins'
+- name: gcp_machine_type
+  required: false
+  description: 'The GKE cluster machine type (size).'
+  type: string
+  default: 'n1-standard-2'
+depends:
+- name: inspec-gcp
+  url: https://github.com/inspec/inspec-gcp/archive/master.tar.gz
+supports:
+- platform: gcp
