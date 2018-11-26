@@ -61,7 +61,7 @@ An InSpec profile is provided in this repository to test the Jenkins cluster.   
 
 ```
 $ cd jenkins-kube-inspec/
-$ inspec exec . -t gcp:// --attrs attributes.yml
+$ bundle exec inspec exec . -t gcp:// --attrs attributes.yml
 
 Profile: InSpec GCP Jenkins Profile (inspec-gcp-jenkins-profile)
 Version: 1.0.0
@@ -80,6 +80,14 @@ Target:  gcp://service-account@spaterson-project.iam.gserviceaccount.com
      ✔  Cluster jenkins-ci node_config.machine_type should eq "n1-standard-2"
      ✔  Cluster jenkins-ci node_ipv4_cidr_size should eq 24
      ✔  Cluster jenkins-ci node_pools.count should eq 1
+  ✔  gcp-jenkins-network-1.0: Ensure GCP Jenkins network has the correct properties.
+     ✔  Network jenkins should exist
+     ✔  Network jenkins name should eq "jenkins"
+     ✔  Network jenkins subnetworks.count should be >= 18
+     ✔  Network jenkins subnetworks.first should match "jenkins"
+     ✔  Network jenkins creation_timestamp_date should be > 2008-11-28 11:56:26 +0000
+     ✔  Network jenkins routing_config.routing_mode should eq "REGIONAL"
+     ✔  Network jenkins auto_create_subnetworks should equal true
 
 
 Profile: Google Cloud Platform Resource Pack (inspec-gcp)
@@ -88,8 +96,8 @@ Target:  gcp://service-account@spaterson-project.iam.gserviceaccount.com
 
      No tests executed.
 
-Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
-Test Summary: 12 successful, 0 failures, 0 skipped
+Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped
+Test Summary: 19 successful, 0 failures, 0 skipped
 ```
 
 Add variables to the `attributes.yml` if values other than the defaults were used to run the `install_jenkins_gcp.sh` script.
