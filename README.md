@@ -35,11 +35,25 @@ export GCP_ZONE=europe-west2-a
 
 ## Run the Installation Script
 
-TODO - add sample output / screenshots
+The installation script uses the following default values that can be overridden as environment variables e.g.
+
+```
+export GCP_CLUSTER_NAME='jenkins-ci'
+export GCP_ZONE='europe-west2-a'
+export GCP_MACHINE_TYPE='n1-standard-2'
+export GCP_CLUSTER_NODES=2
+export GCP_NETWORK='jenkins'
+export GCP_SCOPES='projecthosting,storage-rw'
+```
+
+Run the script via:
 
 ```
 $ ./scripts/install_jenkins_gcp.sh
 ```
+
+If all goes well, the Jenkins initial admin password will be printed towards the end of the output.
+
 
 ## Testing the Infrastructure 
 
