@@ -29,15 +29,6 @@ $ bundle install
 Sensible defaults are in place for the installation script as shown below.  However, the following can be customized through environment variables.  Below shows the default values if nothing is set:
 
 ```
-export GCP_REGION=europe-west2
-export GCP_ZONE=europe-west2-a
-```
-
-## Run the Installation Script
-
-The installation script uses the following default values that can be overridden as environment variables e.g.
-
-```
 export GCP_CLUSTER_NAME='jenkins-ci'
 export GCP_ZONE='europe-west2-a'
 export GCP_MACHINE_TYPE='n1-standard-2'
@@ -45,6 +36,8 @@ export GCP_CLUSTER_NODES=2
 export GCP_NETWORK='jenkins'
 export GCP_SCOPES='projecthosting,storage-rw'
 ```
+
+## Run the Installation Script
 
 Run the script via:
 
