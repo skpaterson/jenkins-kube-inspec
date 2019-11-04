@@ -1,4 +1,4 @@
-FROM jenkins/jnlp-slave
+FROM jenkins/jnlp-slave:3.35-5
 USER root
 RUN apt update && apt upgrade -y
 RUN \
